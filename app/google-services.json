@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "124544850144",
+    "firebase_url": "https://e-commerce-plantify-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "e-commerce-plantify",
+    "storage_bucket": "e-commerce-plantify.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:124544850144:android:5278148b3206f7550e9885",
+        "android_client_info": {
+          "package_name": "com.example.plantify"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOajVTTjCdGU4Uh-aL4Y6tsinAAaHQmls"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:124544850144:android:a4b33604eafea1d10e9885",
+        "android_client_info": {
+          "package_name": "com.example.plantify_admin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOajVTTjCdGU4Uh-aL4Y6tsinAAaHQmls"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:124544850144:android:d7117011e5b66ce90e9885",
+        "android_client_info": {
+          "package_name": "com.example.plantify_user"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOajVTTjCdGU4Uh-aL4Y6tsinAAaHQmls"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
