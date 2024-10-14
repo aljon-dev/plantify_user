@@ -15,23 +15,13 @@
         android:layout_marginRight="20dp">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="FeedBackList"
+            android:id="@+id/FeedBackList"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>
 
     <!-- Floating Button placed at the bottom right of the screen -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/Add_FeedBack"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:backgroundTint="@color/design_default_color_primary"
-        android:textColor="@android:color/white"
-        app:icon="@drawable/baseline_add_24"
-        app:iconGravity="textStart"
-        app:iconPadding="0dp" />
+
 
 
 </FrameLayout>

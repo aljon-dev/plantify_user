@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.google.android.material.internal.NavigationMenuItemView;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -44,12 +45,19 @@ public class home_layout extends Fragment {
     private ProductAdapter adapter;
 
     private FirebaseDatabase firebaseDatabase;
+    private FirebaseAuth firebaseAuth;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home_layout, container, false);
+
+
+        firebaseAuth = FirebaseAuth.getInstance();
+
+
+
 
 
         firebaseDatabase = FirebaseDatabase.getInstance();

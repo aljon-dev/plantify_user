@@ -38,6 +38,7 @@
           android:orientation="horizontal">
 
           <com.google.android.material.button.MaterialButton
+              android:id="@+id/BuyBtn"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               app:backgroundTint="@color/white"
@@ -56,6 +57,7 @@
 
 
           <ImageView
+              android:id="@+id/AddCart"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_marginStart="10dp"
