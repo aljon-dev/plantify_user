@@ -60,6 +60,10 @@ public class Home extends AppCompatActivity {
                     setFragment(new home_layout());
                     Toast.makeText(Home.this, "Home", Toast.LENGTH_SHORT).show();
                 }
+                if(itemid == R.id.carts){
+                    setFragment(new carts());
+
+                }
 
                 if(itemid == R.id.Orders){
 
