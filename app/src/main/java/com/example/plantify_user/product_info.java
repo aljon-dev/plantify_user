@@ -8,6 +8,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -61,6 +63,8 @@ public class product_info extends Fragment {
         View view = inflater.inflate(R.layout.fragment_product_info, container, false);
         firebaseAuth = FirebaseAuth.getInstance();
 
+
+        String userid = firebaseAuth.getCurrentUser().getUid();
         firebaseDatabase = FirebaseDatabase.getInstance();
         // Products Details
         productName = view.findViewById(R.id.productName);
@@ -97,6 +101,8 @@ public class product_info extends Fragment {
 
         Buy.setOnClickListener(v->{
 
+            BuyProduct();
+
         });
 
 
@@ -110,9 +116,62 @@ public class product_info extends Fragment {
 
     private void BuyProduct(){
 
+        AlertDialog.Builder AddCart = new AlertDialog.Builder(getContext());
+
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.product_qty_layout,null,false);
+
+        AddCart.setView(view);
+        TextInputEditText Quantity;
+        Quantity = view.findViewById(R.id.QuantityCart);
+
+        AddCart.setTitle("How Many");
+
+        AddCart.setPositiveButton("Proceed", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                firebaseDatabase.getReference("Products").child(productKey).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        ProductModel productModel = snapshot.getValue(ProductModel.class);
+                        String userid = firebaseAuth.getCurrentUser().getUid();
+                        String Qty = Quantity.getText().toString();
+                        String key = snapshot.getKey();
+
+                        Map<String,Object> Description = new HashMap<>();
+                        Description.put("ImageUrl",productModel.getImageUrl());
+                        Description.put("Price",productModel.getPrice());
+                        Description.put("ProductDescription",productModel.getProductDescription());
+                        Description.put("ProductName",productModel.getProductName());
+                        Description.put("Quantity", Qty);
 
 
 
+
+
+                        if(!Qty.isEmpty()){
+                            replaceFragment(new confirm_order(Description,userid,key));
+
+                        }else{
+                            Toast.makeText(getContext(), "Filled the Quantities", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+
+        AddCart.show();
     }
 
 
@@ -221,4 +280,17 @@ public class product_info extends Fragment {
             }
         });
     }
+
+    private void replaceFragment(Fragment fragment){
+        FragmentManager fragmentManager = getChildFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.main,fragment);
+        fragmentTransaction.commit();
+
+
+    }
+
+
 }
+
+
