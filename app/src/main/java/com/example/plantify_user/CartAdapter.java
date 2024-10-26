@@ -99,7 +99,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewItemHolder
             });
         }
 
-        private void onBind(CartModel cartModel) {
+        void onBind(CartModel cartModel) {
             // Retrieving all product details from the model
             String productPrice = cartModel.getPrice();
             String productQuantity = cartModel.getQuantity();
