@@ -202,7 +202,8 @@ public class product_info extends Fragment {
                         ProductModel productModel = snapshot.getValue(ProductModel.class);
                         String userid = firebaseAuth.getCurrentUser().getUid();
                         String Qty = Quantity.getText().toString();
-                        String key = snapshot.getKey();
+                        String key = snapshot.getKey().toString();
+                        String UniqueId = String.valueOf(System.currentTimeMillis());
 
                         Map<String,Object> Description = new HashMap<>();
                         Description.put("ImageUrl",productModel.getImageUrl());
@@ -210,9 +211,11 @@ public class product_info extends Fragment {
                         Description.put("ProductDescription",productModel.getProductDescription());
                         Description.put("ProductName",productModel.getProductName());
                         Description.put("Quantity", Qty);
+                        Description.put("userid",userid);
+                        Description.put("productKey",key);
 
                         if(!Qty.isEmpty()){
-                            firebaseDatabase.getReference("Users").child( userid).child("Cart").child(key).setValue(Description).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            firebaseDatabase.getReference("Cart").child(UniqueId).setValue(Description).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){

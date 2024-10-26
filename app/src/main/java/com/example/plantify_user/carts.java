@@ -53,15 +53,18 @@ public class carts extends Fragment {
         ListCartView.setAdapter(adapter);
 
 
-        firebaseDatabase.getReference("Users").child(userid).child("Cart").addListenerForSingleValueEvent(new ValueEventListener() {
+        firebaseDatabase.getReference("Cart").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot ds: snapshot.getChildren()){
                     CartModel cartModel = ds.getValue(CartModel.class);
-                    listCart.add(cartModel);
-
+                    if(cartModel.getUserid().equals(userid)) {
+                        listCart.add(cartModel);
+                        cartModel.setCartKey(ds.getKey());
+                    }
+                    adapter.notifyDataSetChanged();
                 }
-                adapter.notifyDataSetChanged();
+
             }
 
             @Override

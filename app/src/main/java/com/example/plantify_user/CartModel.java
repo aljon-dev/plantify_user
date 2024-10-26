@@ -3,7 +3,7 @@ package com.example.plantify_user;
 public class CartModel {
 
 
-   String ImageUrl,Price,ProductDescription,ProductName,Quantity;
+   String ImageUrl,Price,ProductDescription,ProductName,Quantity,userid,productKey,cartKey;
 
     public String getImageUrl() {
         return ImageUrl;
@@ -43,5 +43,29 @@ public class CartModel {
 
     public void setQuantity(String quantity) {
         Quantity = quantity;
+    }
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
+    }
+
+    public String getProductKey() {
+        return productKey;
+    }
+
+    public void setProductKey(String productKey) {
+        this.productKey = productKey;
+    }
+
+    public String getCartKey() {
+        return cartKey;
+    }
+
+    public void setCartKey(String cartKey) {
+        this.cartKey = cartKey;
     }
 }
