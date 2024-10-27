@@ -1,4 +1,4 @@
-package com.example.plantify_user;
+package com.example.plantify_user.model;
 
 public class FeedBackModel {
 

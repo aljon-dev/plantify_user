@@ -61,17 +61,6 @@
                         android:textStyle="bold"
                         android:textSize="20dp"/>
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/checkOutBtn"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="35dp"
-                        android:text="Proceed To Check out"
-                        android:backgroundTint="#49BA2D"
-                        android:textColor="@color/black"
-                        app:cornerRadius="5dp" />
-
 
                 </LinearLayout>
 

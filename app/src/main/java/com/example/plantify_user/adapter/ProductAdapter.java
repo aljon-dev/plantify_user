@@ -1,4 +1,4 @@
-package com.example.plantify_user;
+package com.example.plantify_user.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.plantify_user.R;
+import com.example.plantify_user.model.ProductModel;
 
 import java.util.ArrayList;
 

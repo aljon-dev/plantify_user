@@ -1,4 +1,4 @@
-package com.example.plantify_user;
+package com.example.plantify_user.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.plantify_user.R;
+import com.example.plantify_user.model.FeedBackModel;
 
 import java.util.ArrayList;
 

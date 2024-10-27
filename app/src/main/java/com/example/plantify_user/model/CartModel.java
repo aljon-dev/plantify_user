@@ -1,9 +1,9 @@
-package com.example.plantify_user;
+package com.example.plantify_user.model;
 
-public class CheckOutModel {
+public class CartModel {
 
 
-    String ImageUrl,Price,ProductDescription,ProductName,Quantity,userid,productKey,cartKey;
+   String ImageUrl,Price,ProductDescription,ProductName,Quantity,userid,productKey,cartKey;
 
     public String getImageUrl() {
         return ImageUrl;

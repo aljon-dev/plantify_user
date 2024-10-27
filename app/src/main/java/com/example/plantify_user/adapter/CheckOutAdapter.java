@@ -1,4 +1,4 @@
-package com.example.plantify_user;
+package com.example.plantify_user.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,20 +6,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.example.plantify_user.R;
+import com.example.plantify_user.model.CheckOutModel;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class CheckOutAdapter extends RecyclerView.Adapter<CheckOutAdapter.ViewItemHolder> {
 
