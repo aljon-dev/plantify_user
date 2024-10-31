@@ -36,6 +36,7 @@ public class DeliveryAdapter extends RecyclerView.Adapter<DeliveryAdapter.ItemHo
     @Override
     public void onBindViewHolder(@NonNull DeliveryAdapter.ItemHolder holder, int position) {
         OrderModel orderModel = orderList.get(position);
+        holder.onBind(orderModel);
 
     }
 

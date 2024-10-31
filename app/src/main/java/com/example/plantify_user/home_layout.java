@@ -50,10 +50,6 @@ public class home_layout extends Fragment {
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-
-
-
-
         firebaseDatabase = FirebaseDatabase.getInstance();
 
 

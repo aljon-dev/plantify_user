@@ -59,6 +59,7 @@ public class Deliveries extends Fragment {
                     OrderModel orderModel = ds.getValue(OrderModel.class);
                     if(orderModel.getUserid().equals(userid)){
                         orderList.add(orderModel);
+                        orderModel.setKey(ds.getKey());
                     }
 
                 }
