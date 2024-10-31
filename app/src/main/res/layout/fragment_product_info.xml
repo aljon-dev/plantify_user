@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/main"
     android:background="#164724"
-    tools:context=".product_info">
+    tools:context=".products.product_info">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -1,4 +1,4 @@
-package com.example.plantify_user;
+package com.example.plantify_user.carts_checkout;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.plantify_user.R;
 import com.example.plantify_user.adapter.CheckOutAdapter;
 import com.example.plantify_user.model.CheckOutModel;
 import com.google.android.gms.tasks.OnCompleteListener;

@@ -1,4 +1,4 @@
-package com.example.plantify_user;
+package com.example.plantify_user.carts_checkout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.plantify_user.Home;
+import com.example.plantify_user.R;
 import com.example.plantify_user.adapter.CartAdapter;
 import com.example.plantify_user.model.CartModel;
 import com.google.android.material.button.MaterialButton;

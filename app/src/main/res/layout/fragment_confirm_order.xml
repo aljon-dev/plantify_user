@@ -6,7 +6,7 @@
     android:id="@+id/main"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#164724"
-    tools:context=".confirm_order">
+    tools:context=".products.confirm_order">
 
 
 
