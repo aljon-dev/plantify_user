@@ -2,7 +2,7 @@ package com.example.plantify_user.model;
 
 public class OrderModel {
 
-        String userid, status;
+        String userid, status,key;
 
 
     public String getUserid() {
@@ -19,5 +19,13 @@ public class OrderModel {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 }
