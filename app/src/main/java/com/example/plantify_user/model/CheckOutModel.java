@@ -3,7 +3,7 @@ package com.example.plantify_user.model;
 public class CheckOutModel {
 
 
-    String ImageUrl,Price,ProductDescription,ProductName,Quantity,userid,productKey,cartKey;
+    String ImageUrl, Price, ProductDescription, ProductName, Quantity, userid, ProductKey, cartKey;
 
     public String getImageUrl() {
         return ImageUrl;
@@ -15,6 +15,30 @@ public class CheckOutModel {
 
     public String getPrice() {
         return Price;
+    }
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
+    }
+
+    public String getProductKey() {
+        return ProductKey;
+    }
+
+    public void setProductKey(String productKey) {
+        ProductKey = productKey;
+    }
+
+    public String getCartKey() {
+        return cartKey;
+    }
+
+    public void setCartKey(String cartKey) {
+        this.cartKey = cartKey;
     }
 
     public void setPrice(String price) {
@@ -43,29 +67,5 @@ public class CheckOutModel {
 
     public void setQuantity(String quantity) {
         Quantity = quantity;
-    }
-
-    public String getUserid() {
-        return userid;
-    }
-
-    public void setUserid(String userid) {
-        this.userid = userid;
-    }
-
-    public String getProductKey() {
-        return productKey;
-    }
-
-    public void setProductKey(String productKey) {
-        this.productKey = productKey;
-    }
-
-    public String getCartKey() {
-        return cartKey;
-    }
-
-    public void setCartKey(String cartKey) {
-        this.cartKey = cartKey;
     }
 }

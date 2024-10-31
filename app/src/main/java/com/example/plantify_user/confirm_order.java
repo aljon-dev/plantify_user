@@ -24,6 +24,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -112,13 +113,18 @@ public class confirm_order extends Fragment {
 
     private void confirmOrder(){
 
-        productConfirm.put("buyerid",userid);
-        productConfirm.put("Status","Pending");
+        String uidpackage = String.valueOf(System.currentTimeMillis());
 
-        firebaseDatabase.getReference("Orders").child(productKey).setValue(productConfirm).addOnCompleteListener(new OnCompleteListener<Void>() {
+        Map<String,Object> orderInfo = new HashMap<>();
+        orderInfo.put("userid",userid);
+        orderInfo.put("status","For Review");
+
+
+        firebaseDatabase.getReference("Orders").child(uidpackage).setValue(orderInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
+                    firebaseDatabase.getReference("Orders").child(uidpackage).child(productKey).updateChildren(productConfirm);
                     Toast.makeText(getContext(), "Order Confirmed", Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(getContext(), "Failed to Confirmed Orders", Toast.LENGTH_SHORT).show();

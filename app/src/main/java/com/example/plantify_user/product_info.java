@@ -210,8 +210,7 @@ public class product_info extends Fragment {
                         Description.put("ProductDescription",productModel.getProductDescription());
                         Description.put("ProductName",productModel.getProductName());
                         Description.put("Quantity", Qty);
-                        Description.put("userid",userid);
-                        Description.put("productKey",key);
+
 
                         if(!Qty.isEmpty()){
                             firebaseDatabase.getReference("Cart").child(UniqueId).setValue(Description).addOnCompleteListener(new OnCompleteListener<Void>() {

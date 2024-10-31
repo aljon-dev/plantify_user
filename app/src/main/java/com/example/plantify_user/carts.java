@@ -82,6 +82,7 @@ public class carts extends Fragment {
                     if(cartModel.getUserid().equals(userid)) {
                         listCart.add(cartModel);
                         cartModel.setCartKey(ds.getKey());
+                        cartModel.setProductKey(cartModel.getProductKey());
                     }
                     adapter.notifyDataSetChanged();
                 }

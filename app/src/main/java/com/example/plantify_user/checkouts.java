@@ -20,6 +20,8 @@ import android.widget.Toast;
 
 import com.example.plantify_user.adapter.CheckOutAdapter;
 import com.example.plantify_user.model.CheckOutModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -91,6 +93,7 @@ public class checkouts extends Fragment {
                             CheckOutModel checkOutModel = ds.getValue(CheckOutModel.class);
                             if (checkOutModel.getUserid().equals(userid)) {
                                 checkOutModel.setCartKey(ds.getKey());
+
                                 CheckList.add(checkOutModel);
                             }
                             adapter.notifyDataSetChanged();
@@ -115,15 +118,32 @@ public class checkouts extends Fragment {
         List<Map<String, Object>> orderedItems = new ArrayList<>();
         for(CheckOutModel item:CheckList){
             Map<String, Object> orderItem = new HashMap<>();
-            orderItem.put("productKey", item.getProductKey());
-            orderItem.put("productName", item.getProductName());
-            orderItem.put("quantity", item.getQuantity());
-            orderItem.put("price", item.getPrice());
-            orderItem.put("imageUrl", item.getImageUrl());
+            orderItem.put("ProductKey", item.getProductKey());
+            orderItem.put("ProductName", item.getProductName());
+            orderItem.put("Quantity", item.getQuantity());
+            orderItem.put("Price", item.getPrice());
+            orderItem.put("ImageUrl", item.getImageUrl());
+            orderItem.put("ProductDescription",item.getProductDescription());
             orderedItems.add(orderItem);
         }
 
-        firebaseDatabase.getReference("Orders").child(referenceId).setValue(orderedItems);
+
+        Map<String,Object> orderInfo = new HashMap<>();
+        orderInfo.put("userid",userid);
+        orderInfo.put("status","For Review");
+
+        firebaseDatabase.getReference("Orders").child(referenceId).setValue( orderedItems).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    firebaseDatabase.getReference("Orders").child(referenceId).updateChildren(orderInfo);
+                }else{
+                    Toast.makeText(getContext(), "Failed to Initialize", Toast.LENGTH_SHORT).show();
+                }
+
+
+            }
+        });
 
 
 
