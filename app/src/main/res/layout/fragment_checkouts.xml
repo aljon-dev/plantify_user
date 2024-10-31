@@ -10,49 +10,58 @@
         android:id="@+id/ListCartView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
+
         android:layout_marginTop="30dp"
         android:layout_gravity="top" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="120dp"
-        app:cardCornerRadius="10dp"
-        app:cardUseCompatPadding="true"
-        app:cardElevation="2dp"
+        android:layout_gravity="bottom"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="10dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="2dp"
+        app:cardUseCompatPadding="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/TotalPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Total Price">
+
+            </TextView>
+
             <com.google.android.material.button.MaterialButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
 
-                android:layout_marginTop="10dp"
-                android:text="BACK"
-                app:cornerRadius="10dp"
+                android:layout_marginTop="5dp"
                 android:backgroundTint="#ACB0AB"
-                android:textStyle="bold"
                 android:paddingStart="65dp"
-                android:paddingEnd="65dp"/>
+                android:paddingEnd="65dp"
+                android:text="BACK"
+                android:textStyle="bold"
+                app:cornerRadius="10dp" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/checkOutBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="CHECKOUT"
-                app:cornerRadius="10dp"
                 android:backgroundTint="#49BA2D"
-                android:textStyle="bold"
                 android:paddingStart="50dp"
-                android:paddingEnd="50dp"/>
+                android:paddingEnd="50dp"
+                android:text="CHECKOUT"
+                android:textStyle="bold"
+                app:cornerRadius="10dp" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

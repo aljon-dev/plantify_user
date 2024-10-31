@@ -31,7 +31,7 @@ public class ProductAdapter extends BaseAdapter {
     public void setOnItemClickListener(onItemClickListener onItemClickListener){
         this.onItemClickListener = onItemClickListener;
     }
-    interface onItemClickListener{
+    public interface onItemClickListener{
         void OnClick(ProductModel productModel);
     }
 

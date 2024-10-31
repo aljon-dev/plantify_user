@@ -98,17 +98,11 @@ public class carts extends Fragment {
 
 
 
-
-
-
-
-
-
         return view;
     }
 
     private void setFragment(Fragment fragment){
-        FragmentManager fragmentManager = getChildFragmentManager();
+        FragmentManager fragmentManager = getParentFragmentManager();
         FragmentTransaction fragmentTransaction =  fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.main,fragment);
         fragmentTransaction.commit();

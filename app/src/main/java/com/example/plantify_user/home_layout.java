@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.example.plantify_user.adapter.ProductAdapter;
 import com.example.plantify_user.model.ProductModel;
@@ -40,6 +41,7 @@ public class home_layout extends Fragment {
     private FirebaseAuth firebaseAuth;
 
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -54,7 +56,9 @@ public class home_layout extends Fragment {
 
         firebaseDatabase = FirebaseDatabase.getInstance();
 
+
         productListed = view.findViewById(R.id.productListed);
+
         productList = new ArrayList<>();
         adapter = new ProductAdapter(getContext(),productList);
         productListed.setAdapter(adapter);
