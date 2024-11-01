@@ -4,12 +4,14 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.plantify_user.R;
 import com.example.plantify_user.adapter.DeliveryAdapter;
@@ -65,8 +67,6 @@ public class Deliveries extends Fragment {
                 }
                 adapter.notifyDataSetChanged();
             }
-
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -74,9 +74,22 @@ public class Deliveries extends Fragment {
         });
 
 
+        adapter.setOnItemClickListener(new DeliveryAdapter.onItemClickListener() {
+            @Override
+            public void onClick(OrderModel orderModel) {
+                Toast.makeText(getContext(), orderModel.getKey(), Toast.LENGTH_SHORT).show();
 
+            }
+        });
 
 
         return view;
     }
+
+    private void ProductInfo(Fragment fragment){}
+    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+
+
+
+
 }

@@ -20,6 +20,18 @@ public class DeliveryAdapter extends RecyclerView.Adapter<DeliveryAdapter.ItemHo
     ArrayList<OrderModel> orderList;
     Context context;
 
+    onItemClickListener onItemClickListener;
+
+    public void setOnItemClickListener(onItemClickListener onItemClickListener){
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public interface  onItemClickListener {
+
+         void onClick(OrderModel orderModel);
+
+    }
+
     public DeliveryAdapter(  Context context, ArrayList<OrderModel> orderList){
         this.orderList = orderList;
         this.context = context;
@@ -36,6 +48,7 @@ public class DeliveryAdapter extends RecyclerView.Adapter<DeliveryAdapter.ItemHo
     @Override
     public void onBindViewHolder(@NonNull DeliveryAdapter.ItemHolder holder, int position) {
         OrderModel orderModel = orderList.get(position);
+        holder.itemView.setOnClickListener(v-> onItemClickListener.onClick(orderList.get(position)));
         holder.onBind(orderModel);
 
     }

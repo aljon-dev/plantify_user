@@ -13,9 +13,13 @@ import com.example.plantify_user.R;
 
 public class Delivery_product_info extends Fragment {
 
+    String orderKey;
 
-    public Delivery_product_info() {
-        // Required empty public constructor
+
+    public Delivery_product_info(String orderKey) {
+
+        this.orderKey = orderKey;
+
     }
 
 
@@ -29,6 +33,5 @@ public class Delivery_product_info extends Fragment {
 
 
             return view;
-
         }
 }
