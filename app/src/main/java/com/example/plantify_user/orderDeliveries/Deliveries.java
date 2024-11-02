@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -77,19 +78,19 @@ public class Deliveries extends Fragment {
         adapter.setOnItemClickListener(new DeliveryAdapter.onItemClickListener() {
             @Override
             public void onClick(OrderModel orderModel) {
-                Toast.makeText(getContext(), orderModel.getKey(), Toast.LENGTH_SHORT).show();
+               ProductInfo(new Delivery_product_info(orderModel.getKey()));
 
             }
         });
 
-
         return view;
     }
 
-    private void ProductInfo(Fragment fragment){}
-    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-
-
-
+    private void ProductInfo(Fragment fragment) {
+        FragmentManager fragmentManager = getParentFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.main, fragment);
+        fragmentTransaction.commit();
+    }
 
 }

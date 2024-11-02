@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.plantify_user.carts_checkout.carts;
+import com.example.plantify_user.chats.chats;
 import com.example.plantify_user.orderDeliveries.Deliveries;
 import com.google.android.material.navigation.NavigationView;
 
@@ -72,6 +73,7 @@ public class Home extends AppCompatActivity {
 
                 }
                 if(itemid == R.id.Chats){
+                    setFragment(new chats());
 
                 }
                 if(itemid == R.id.FeedBacks){
