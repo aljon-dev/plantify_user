@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -44,7 +45,7 @@ public class product_info extends Fragment {
 
     private  FirebaseDatabase firebaseDatabase;
 
-    private  ImageView productImg, CommentBtn,AddCartBtn;
+    private  ImageView productImg, ratingProduct,AddCartBtn;
 
     private  TextView productName,productPrice,productDesc;
 
@@ -55,6 +56,8 @@ public class product_info extends Fragment {
     private  RecyclerView Comments;
 
     private FirebaseAuth firebaseAuth;
+
+    private String ProductRating,TotalUserRating,keyProduct;
 
 
     @Override
@@ -83,9 +86,8 @@ public class product_info extends Fragment {
         AddCartBtn = view.findViewById(R.id.AddCart);
         // Buy Button
         Buy = view.findViewById(R.id.BuyBtn);
-
-
-
+        //Rating Product
+        ratingProduct = view.findViewById(R.id.ratingProduct);
 
 
         //Bar Rating
@@ -94,15 +96,15 @@ public class product_info extends Fragment {
         DisplayProductInfo();
 
         AddCartBtn.setOnClickListener(v->{
-
             getproduct();
         });
 
 
         Buy.setOnClickListener(v->{
-
             BuyProduct();
-
+        });
+        ratingProduct.setOnClickListener(v->{
+            addCommentRatingProduct(keyProduct);
         });
 
 
@@ -147,9 +149,6 @@ public class product_info extends Fragment {
                         Description.put("Quantity", Qty);
 
 
-
-
-
                         if(!Qty.isEmpty()){
                             replaceFragment(new confirm_order(Description,userid,key));
 
@@ -173,9 +172,6 @@ public class product_info extends Fragment {
 
         AddCart.show();
     }
-
-
-
 
 
     private void getproduct (){
@@ -211,6 +207,7 @@ public class product_info extends Fragment {
                         Description.put("ProductDescription",productModel.getProductDescription());
                         Description.put("ProductName",productModel.getProductName());
                         Description.put("Quantity", Qty);
+                        Description.put("userid",userid);
 
 
                         if(!Qty.isEmpty()){
@@ -260,6 +257,10 @@ public class product_info extends Fragment {
                 String totalRatings = productModel.getTotalRating();
                 String productRatings = productModel.getProductRating();
 
+                ProductRating = productRatings;
+                TotalUserRating = totalRatings;
+                keyProduct = snapshot.getKey();
+
                 int ratingstotal = totalRatings.isEmpty() ? 1 : Integer.parseInt(totalRatings);
                 int ratingProducts = productRatings.isEmpty() ? 1 : Integer.parseInt(productRatings);
 
@@ -281,6 +282,67 @@ public class product_info extends Fragment {
 
             }
         });
+    }
+
+    private void addCommentRatingProduct(String ProductId){
+
+
+        String userid = firebaseAuth.getCurrentUser().getUid();
+        String email = firebaseAuth.getCurrentUser().getEmail();
+
+        AlertDialog.Builder productRating = new AlertDialog.Builder(getContext());
+
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.product_rating_comment,null,false);
+
+        productRating.setView(view);
+
+        EditText Comment,Rating;
+
+        Comment = view.findViewById(R.id.CommentHere);
+        Rating = view.findViewById(R.id.productRating);
+
+        productRating.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if(Comment.getText().toString().isEmpty() || Rating.getText().toString().isEmpty()){
+                    Toast.makeText(getContext(), "Filled the Fields", Toast.LENGTH_SHORT).show();
+                }else{
+                    int totalRating = Integer.parseInt(TotalUserRating) + 1;
+                    int productRating = Integer.parseInt(ProductRating) + Integer.parseInt(Rating.getText().toString());
+
+                    String AmountTotalRating = String.valueOf(totalRating);
+                    String totalProductRating = String.valueOf(productRating);
+                    Map<String,Object> RatingUpdate = new HashMap<>();
+                    RatingUpdate.put("ProductRating",totalProductRating );
+                    RatingUpdate.put("TotalRating",AmountTotalRating);
+
+
+                    firebaseDatabase.getReference("Products").child(ProductId).updateChildren(RatingUpdate);
+
+                    Map<String,Object> Comments = new HashMap<>();
+                    Comments.put("Comment",Comment.getText().toString());
+                    Comments.put("Email",email);
+                    Comments.put("Userid", userid);
+                    firebaseDatabase.getReference("Products")
+                            .child(ProductId)
+                            .child("Comments")
+                            .push()
+                            .setValue(Comments);
+
+                    Toast.makeText(getContext(), "Comment Rated", Toast.LENGTH_SHORT).show();
+
+
+                }
+            }
+        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+            }
+        });
+        productRating.show();
+
+
     }
 
     private void replaceFragment(Fragment fragment){

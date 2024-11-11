@@ -126,6 +126,7 @@ public class checkouts extends Fragment {
             orderItem.put("ImageUrl", item.getImageUrl());
             orderItem.put("ProductDescription",item.getProductDescription());
             orderedItems.add(orderItem);
+            firebaseDatabase.getReference("Orders").child(item.getCartKey()).removeValue();
         }
 
 
