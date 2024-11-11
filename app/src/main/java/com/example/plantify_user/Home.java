@@ -1,5 +1,6 @@
 package com.example.plantify_user;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -18,8 +19,10 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.plantify_user.carts_checkout.carts;
 import com.example.plantify_user.chats.chats;
+import com.example.plantify_user.feedbacks.Feedbacks;
 import com.example.plantify_user.orderDeliveries.Deliveries;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class Home extends AppCompatActivity {
 
@@ -30,6 +33,7 @@ public class Home extends AppCompatActivity {
     private ImageView imagebutton;
 
     private DrawerLayout drawer;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +49,7 @@ public class Home extends AppCompatActivity {
         nav = findViewById(R.id.home_menu);
         drawer = findViewById(R.id.drawer);
         imagebutton = findViewById(R.id.imageButton);
+        firebaseAuth = FirebaseAuth.getInstance();
 
 
 
@@ -77,10 +82,12 @@ public class Home extends AppCompatActivity {
 
                 }
                 if(itemid == R.id.FeedBacks){
-
+                    setFragment(new Feedbacks());
                 }
                 if(itemid == R.id.Sign_Out){
-
+                    Intent intent = new Intent(Home.this, MainActivity.class);
+                    firebaseAuth.signOut();
+                    startActivity(intent);
                 }
                 return false;
             }

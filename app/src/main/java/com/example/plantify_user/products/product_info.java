@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -21,6 +22,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.plantify_user.R;
+import com.example.plantify_user.adapter.CommentAdapter;
+import com.example.plantify_user.model.ListCommentModel;
 import com.example.plantify_user.model.ProductModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -32,6 +35,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,6 +63,10 @@ public class product_info extends Fragment {
 
     private String ProductRating,TotalUserRating,keyProduct;
 
+    private CommentAdapter adapter;
+    private ArrayList<ListCommentModel> commentList;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -80,7 +88,7 @@ public class product_info extends Fragment {
         ratingBar = view.findViewById(R.id.ratingBar);
 
         //Product Comments not yet Implent A RecyclerView
-        Comments = view.findViewById(R.id.Comments);
+        Comments = view.findViewById(R.id.ListComment);
 
         //Cart Button
         AddCartBtn = view.findViewById(R.id.AddCart);
@@ -89,11 +97,42 @@ public class product_info extends Fragment {
         //Rating Product
         ratingProduct = view.findViewById(R.id.ratingProduct);
 
+        //display comments
+        Comments.setLayoutManager(new LinearLayoutManager(getContext()));
+        commentList = new ArrayList<>();
+        adapter = new CommentAdapter(getContext(),commentList);
+        Comments.setAdapter(adapter);
+
+        DisplayProductInfo();
+
+        firebaseDatabase.getReference("Products").child(productKey).child("Comments").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                commentList.clear();
+                for(DataSnapshot ds: snapshot.getChildren()){
+                    ListCommentModel listCommentModel = ds.getValue(ListCommentModel.class);
+                    commentList.add(listCommentModel);
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+
+
+
+
 
         //Bar Rating
         ratingBar.getRating();
 
-        DisplayProductInfo();
+
 
         AddCartBtn.setOnClickListener(v->{
             getproduct();
@@ -106,11 +145,6 @@ public class product_info extends Fragment {
         ratingProduct.setOnClickListener(v->{
             addCommentRatingProduct(keyProduct);
         });
-
-
-
-
-
 
         return view ;
     }
@@ -140,6 +174,7 @@ public class product_info extends Fragment {
                         String userid = firebaseAuth.getCurrentUser().getUid();
                         String Qty = Quantity.getText().toString();
                         String key = snapshot.getKey();
+
 
                         Map<String,Object> Description = new HashMap<>();
                         Description.put("ImageUrl",productModel.getImageUrl());
@@ -175,7 +210,6 @@ public class product_info extends Fragment {
 
 
     private void getproduct (){
-
 
         AlertDialog.Builder AddCart = new AlertDialog.Builder(getContext());
 
@@ -245,9 +279,6 @@ public class product_info extends Fragment {
     }
 
 
-
-
-
     private void DisplayProductInfo(){
         firebaseDatabase.getReference("Products").child(productKey).addValueEventListener(new ValueEventListener() {
             @Override
@@ -264,16 +295,12 @@ public class product_info extends Fragment {
                 int ratingstotal = totalRatings.isEmpty() ? 1 : Integer.parseInt(totalRatings);
                 int ratingProducts = productRatings.isEmpty() ? 1 : Integer.parseInt(productRatings);
 
-
                 Glide.with(getActivity()).load(productModel.getImageUrl()).error(R.drawable.plant_logo).placeholder(R.drawable.plant_logo).into(productImg);
-
 
                 productName.setText(productModel.getProductName());
                 productPrice.setText(productModel.getPrice());
                 productDesc.setText(productModel.getProductDescription());
                 ratingBar.setRating((float)ratingProducts /  ratingstotal );
-
-
 
             }
 
@@ -284,8 +311,10 @@ public class product_info extends Fragment {
         });
     }
 
-    private void addCommentRatingProduct(String ProductId){
 
+
+
+    private void addCommentRatingProduct(String ProductId){
 
         String userid = firebaseAuth.getCurrentUser().getUid();
         String email = firebaseAuth.getCurrentUser().getEmail();

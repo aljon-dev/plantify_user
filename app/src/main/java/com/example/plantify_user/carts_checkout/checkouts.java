@@ -99,9 +99,7 @@ public class checkouts extends Fragment {
                             }
                             adapter.notifyDataSetChanged();
                         }
-
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
                         Toast.makeText(getContext(), "Error: " + error.getMessage(),
@@ -116,6 +114,8 @@ public class checkouts extends Fragment {
 
         String referenceId = String.valueOf(System.currentTimeMillis());
 
+
+
         List<Map<String, Object>> orderedItems = new ArrayList<>();
         for(CheckOutModel item:CheckList){
             Map<String, Object> orderItem = new HashMap<>();
@@ -126,19 +126,22 @@ public class checkouts extends Fragment {
             orderItem.put("ImageUrl", item.getImageUrl());
             orderItem.put("ProductDescription",item.getProductDescription());
             orderedItems.add(orderItem);
-            firebaseDatabase.getReference("Orders").child(item.getCartKey()).removeValue();
+            firebaseDatabase.getReference("For_CheckOut").child(item.getCartKey()).removeValue();
         }
-
 
         Map<String,Object> orderInfo = new HashMap<>();
         orderInfo.put("userid",userid);
         orderInfo.put("status","For Review");
+
+
+
 
         firebaseDatabase.getReference("Orders").child(referenceId).setValue( orderedItems).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
                     firebaseDatabase.getReference("Orders").child(referenceId).updateChildren(orderInfo);
+                    Toast.makeText(getContext(), "Order Successfully", Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(getContext(), "Failed to Initialize", Toast.LENGTH_SHORT).show();
                 }

@@ -15,8 +15,6 @@
         >
 
 
-
-
         <TextView
             android:id="@+id/userEmail"
             android:layout_width="match_parent"
