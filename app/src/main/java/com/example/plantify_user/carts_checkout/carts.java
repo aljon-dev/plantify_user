@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.plantify_user.Home;
 import com.example.plantify_user.R;
@@ -54,6 +55,10 @@ public class carts extends Fragment {
 
         String userid = firebaseAuth.getCurrentUser().getUid();
 
+        if(userid == null){
+            Toast.makeText(getContext(), "Failed to fetch uid", Toast.LENGTH_SHORT).show();
+        }
+
         ListCartView = view.findViewById(R.id.ListCartView);
 
         //Buttons
@@ -78,16 +83,19 @@ public class carts extends Fragment {
         firebaseDatabase.getReference("Cart").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot ds: snapshot.getChildren()){
-                    CartModel cartModel = ds.getValue(CartModel.class);
-                    if(cartModel.getUserid().equals(userid)) {
-                        listCart.add(cartModel);
-                        cartModel.setCartKey(ds.getKey());
-                        cartModel.setProductKey(cartModel.getProductKey());
+                try{
+                    for(DataSnapshot ds: snapshot.getChildren()){
+                        CartModel cartModel = ds.getValue(CartModel.class);
+                        if(cartModel.getUserid().equals(userid)) {
+                            listCart.add(cartModel);
+                            cartModel.setCartKey(ds.getKey());
+                            cartModel.setProductKey(cartModel.getProductKey());
+                        }
+                        adapter.notifyDataSetChanged();
                     }
-                    adapter.notifyDataSetChanged();
+                }catch(Exception e){
+                    e.printStackTrace();
                 }
-
             }
 
             @Override
@@ -95,10 +103,6 @@ public class carts extends Fragment {
 
             }
         });
-
-
-
-
 
         return view;
     }

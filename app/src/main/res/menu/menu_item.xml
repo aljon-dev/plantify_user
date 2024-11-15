@@ -14,7 +14,12 @@
             android:title="Cart">
 
         </item>
+        <item
 
+            android:id="@+id/schedule"
+            android:title="Plant Schedule ">
+
+        </item>
 
         <item
 
