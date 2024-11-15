@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -112,12 +113,13 @@ public class plantNotify extends Fragment {
         dialog.setContentView(R.layout.dialog_add_schedule);
         dialog.setCancelable(true);
 
+        View  plantNameEditText = dialog.findViewById(R.id.EditPlantname);
         dateTextView = dialog.findViewById(R.id.dateTextView);
         timeTextView = dialog.findViewById(R.id.timeTextView);
         selectedImageView = dialog.findViewById(R.id.selectedImageView);
         Button addButton = dialog.findViewById(R.id.addButton);
 
-        // Date Picker
+
         dateTextView.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
             DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
@@ -128,7 +130,7 @@ public class plantNotify extends Fragment {
             datePickerDialog.show();
         });
 
-        // Time Picker
+
         timeTextView.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
             TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(),
@@ -147,28 +149,28 @@ public class plantNotify extends Fragment {
             String time = timeTextView.getText().toString();
 
             if (selectedImageUri != null) {
-                // Reference to Firebase Storage
+
                 FirebaseStorage storage = FirebaseStorage.getInstance();
                 StorageReference storageRef = storage.getReference().child("schedules/" + System.currentTimeMillis() + ".jpg");
 
-                // Upload the image to Firebase Storage
+
                 storageRef.putFile(selectedImageUri)
                         .addOnSuccessListener(taskSnapshot -> storageRef.getDownloadUrl()
                                 .addOnSuccessListener(uri -> {
-                                    // Image uploaded successfully, get its download URL
+
                                     String imageUrl = uri.toString();
 
-                                    // Reference to Firebase Realtime Database
                                     DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("schedules");
 
-                                    // Create a unique key for the new schedule
+
                                     String scheduleId = databaseRef.push().getKey();
 
-                                    // Create a new Schedule object
+
                                     Map<String,Object> schedule = new HashMap<>();
                                     schedule.put("date",date);
                                     schedule.put("time",time);
                                     schedule.put("imageUrl",imageUrl);
+                                    schedule.put("plantname",plantNameEditText.toString());
 
                                     // Save schedule data to Firebase Realtime Database
                                     databaseRef.child(scheduleId).setValue(schedule)
