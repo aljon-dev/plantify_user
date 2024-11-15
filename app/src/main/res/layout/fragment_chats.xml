@@ -10,7 +10,6 @@
 
     <!-- Chat Header -->
     <com.google.android.material.appbar.AppBarLayout
-
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
