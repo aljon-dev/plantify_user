@@ -7,6 +7,7 @@
     android:background="#F5F5F5"
     tools:context=".chats.chats">
 
+
     <!-- Chat Header -->
     <com.google.android.material.appbar.AppBarLayout
 
