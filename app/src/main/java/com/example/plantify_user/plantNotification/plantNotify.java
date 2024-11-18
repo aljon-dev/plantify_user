@@ -2,12 +2,17 @@ package com.example.plantify_user.plantNotification;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import com.example.plantify_user.plantNotification.NotificationReceiver;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -100,7 +105,30 @@ public class plantNotify extends Fragment {
         });
 
 
+
         return view;
+    }
+
+    private void scheduleNotification(String plantName, String date, String time) {
+        Calendar calendar = Calendar.getInstance();
+        String[] dateParts = date.split("-");
+        String[] timeParts = time.split(":");
+
+        calendar.set(Calendar.YEAR, Integer.parseInt(dateParts[0]));
+        calendar.set(Calendar.MONTH, Integer.parseInt(dateParts[1]) - 1);
+        calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateParts[2]));
+        calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(timeParts[0]));
+        calendar.set(Calendar.MINUTE, Integer.parseInt(timeParts[1]));
+        calendar.set(Calendar.SECOND, 0);
+
+        Intent intent = new Intent(getContext(), NotificationReceiver.class);
+        intent.putExtra("plantName", plantName);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+        if (alarmManager != null) {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        }
     }
 
 
@@ -109,17 +137,22 @@ public class plantNotify extends Fragment {
         startActivityForResult(intent, IMAGE_PICK_CODE);
     }
     private void showAddScheduleDialog() {
-        final Dialog dialog = new Dialog(getContext());
-        dialog.setContentView(R.layout.dialog_add_schedule);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_add_schedule, null);
+        builder.setView(dialogView);
+
+        AlertDialog dialog = builder.create();
         dialog.setCancelable(true);
 
-        View  plantNameEditText = dialog.findViewById(R.id.EditPlantname);
-        dateTextView = dialog.findViewById(R.id.dateTextView);
-        timeTextView = dialog.findViewById(R.id.timeTextView);
-        selectedImageView = dialog.findViewById(R.id.selectedImageView);
-        Button addButton = dialog.findViewById(R.id.addButton);
+        EditText plantNameEditText = dialogView.findViewById(R.id.EditPlantname);
+        TextView dateTextView = dialogView.findViewById(R.id.dateTextView);
+        TextView timeTextView = dialogView.findViewById(R.id.timeTextView);
+        ImageView selectedImageView = dialogView.findViewById(R.id.selectedImageView);
+        Button addButton = dialogView.findViewById(R.id.addButton);
 
+        scheduleNotification(plantNameEditText.getText().toString(),dateTextView.toString() ,timeTextView.toString());
 
+        // Set up Date Picker
         dateTextView.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
             DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
@@ -130,7 +163,7 @@ public class plantNotify extends Fragment {
             datePickerDialog.show();
         });
 
-
+        // Set up Time Picker
         timeTextView.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
             TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(),
@@ -147,30 +180,24 @@ public class plantNotify extends Fragment {
         addButton.setOnClickListener(v -> {
             String date = dateTextView.getText().toString();
             String time = timeTextView.getText().toString();
+            String plantName = plantNameEditText.getText().toString();
 
             if (selectedImageUri != null) {
-
                 FirebaseStorage storage = FirebaseStorage.getInstance();
                 StorageReference storageRef = storage.getReference().child("schedules/" + System.currentTimeMillis() + ".jpg");
-
 
                 storageRef.putFile(selectedImageUri)
                         .addOnSuccessListener(taskSnapshot -> storageRef.getDownloadUrl()
                                 .addOnSuccessListener(uri -> {
-
                                     String imageUrl = uri.toString();
-
                                     DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("schedules");
-
-
                                     String scheduleId = databaseRef.push().getKey();
 
-
-                                    Map<String,Object> schedule = new HashMap<>();
-                                    schedule.put("date",date);
-                                    schedule.put("time",time);
-                                    schedule.put("imageUrl",imageUrl);
-                                    schedule.put("plantname",plantNameEditText.toString());
+                                    Map<String, Object> schedule = new HashMap<>();
+                                    schedule.put("date", date);
+                                    schedule.put("time", time);
+                                    schedule.put("imageUrl", imageUrl);
+                                    schedule.put("plantname", plantName);
 
                                     // Save schedule data to Firebase Realtime Database
                                     databaseRef.child(scheduleId).setValue(schedule)
