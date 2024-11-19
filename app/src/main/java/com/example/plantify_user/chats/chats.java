@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import com.example.plantify_user.R;
 import com.example.plantify_user.adapter.chatAdapter;
@@ -47,9 +48,9 @@ public class chats extends Fragment {
     private ArrayList<ChatModel> chatList;
     private chatAdapter adapter;
     private String currentUserId;
-    private String otherUserId = "28mrXN8TymVWmfheEeOlgbnlJe93";
+    private String otherUserId = "userAdmin";
     private static final int PICK_IMAGE_REQUEST = 1;
-    private Button buttonUploadImage;
+    private ImageButton button_upload_image;
     private FirebaseStorage storage;
     private StorageReference storageReference;// Consider passing this through arguments
 
@@ -86,7 +87,7 @@ public class chats extends Fragment {
         buttonSend = view.findViewById(R.id.button_send);
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.scrollToPosition(chatList.size() - 1);
-        buttonUploadImage = view.findViewById(R.id.button_upload_image);
+        button_upload_image = view.findViewById(R.id.button_upload_image);
     }
 
 
@@ -255,7 +256,7 @@ public class chats extends Fragment {
 
 
     private void setupImageUploadButton() {
-        buttonUploadImage.setOnClickListener(v -> {
+        button_upload_image.setOnClickListener(v -> {
             Intent intent = new Intent();
             intent.setType("image/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);

@@ -49,6 +49,8 @@ dependencies {
     implementation ("com.google.firebase:firebase-auth:23.0.0")
     implementation ("com.google.firebase:firebase-database:21.0.0")
     implementation ("com.google.firebase:firebase-storage:21.0.0")
+
+
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 }

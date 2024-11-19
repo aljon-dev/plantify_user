@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.plantify_user.R;
 import com.example.plantify_user.adapter.CommentAdapter;
+import com.example.plantify_user.home_layout;
 import com.example.plantify_user.model.ListCommentModel;
 import com.example.plantify_user.model.ProductModel;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -49,7 +50,7 @@ public class product_info extends Fragment {
 
     private  FirebaseDatabase firebaseDatabase;
 
-    private  ImageView productImg, ratingProduct,AddCartBtn;
+    private  ImageView productImg, ratingProduct,AddCartBtn,backbtn;
 
     private  TextView productName,productPrice,productDesc;
 
@@ -82,6 +83,7 @@ public class product_info extends Fragment {
         productPrice = view.findViewById(R.id.productPrice);
         productDesc = view.findViewById(R.id.productDesc);
         productImg = view.findViewById(R.id.productImg);
+        backbtn = view.findViewById(R.id.backbtn);
 
 
         //Product Rating Stars
@@ -123,16 +125,12 @@ public class product_info extends Fragment {
         });
 
 
-
-
-
-
-
-
         //Bar Rating
         ratingBar.getRating();
 
-
+        backbtn.setOnClickListener(v->{
+            replaceFragment(new home_layout());
+        });
 
         AddCartBtn.setOnClickListener(v->{
             getproduct();
@@ -375,7 +373,7 @@ public class product_info extends Fragment {
     }
 
     private void replaceFragment(Fragment fragment){
-        FragmentManager fragmentManager = getChildFragmentManager();
+        FragmentManager fragmentManager = getParentFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.main,fragment);
         fragmentTransaction.commit();

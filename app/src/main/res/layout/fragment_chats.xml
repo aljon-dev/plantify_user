@@ -28,14 +28,6 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <ImageButton
-                    android:id="@+id/button_back"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:src="@android:drawable/ic_menu_close_clear_cancel"
-                    android:contentDescription="Back"/>
-
                 <TextView
                     android:id="@+id/text_chat_title"
                     android:layout_width="0dp"
@@ -45,7 +37,7 @@
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="@android:color/black"
-                    android:text="Chat"/>
+                    android:text="Chat to the Store Owner"/>
 
             </LinearLayout>
 

@@ -51,7 +51,7 @@ public class Deliveries extends Fragment {
 
         deliveryList.setLayoutManager(new LinearLayoutManager(getContext()));
         orderList = new ArrayList<>();
-        adapter = new DeliveryAdapter(getContext(),orderList);
+        adapter = new DeliveryAdapter(getContext(),orderList,userid);
 
         deliveryList.setAdapter(adapter);
 
