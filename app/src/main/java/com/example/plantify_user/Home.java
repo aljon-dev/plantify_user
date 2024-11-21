@@ -21,7 +21,7 @@ import com.example.plantify_user.carts_checkout.carts;
 import com.example.plantify_user.chats.chats;
 import com.example.plantify_user.feedbacks.Feedbacks;
 import com.example.plantify_user.orderDeliveries.Deliveries;
-import com.example.plantify_user.plantNotification.plantNotify;
+
 import com.example.plantify_user.userSettings.userSettings;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -87,7 +87,7 @@ public class Home extends AppCompatActivity {
                     setFragment(new Feedbacks());
                 }
                 if(itemid == R.id.schedule){
-                    setFragment(new plantNotify());
+
                 }
                 if(itemid == R.id.settings){
                     setFragment(new userSettings());
