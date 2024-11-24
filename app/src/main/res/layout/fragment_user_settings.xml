@@ -27,7 +27,7 @@
 
         <!-- Button to Change Profile Picture -->
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/changePictureButton"
+            android:id="@+id/uploadPicture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -45,7 +45,7 @@
             android:text="Username"
             android:textSize="14sp"
             android:textColor="#2196F3"
-            app:layout_constraintTop_toBottomOf="@id/changePictureButton"
+            app:layout_constraintTop_toBottomOf="@id/uploadPicture"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="16dp" />
 
