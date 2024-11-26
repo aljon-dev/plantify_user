@@ -27,6 +27,12 @@ public class ProductAdapter extends BaseAdapter {
 
     }
 
+    public void updateList(ArrayList<ProductModel> filteredList) {
+        this.productList.clear();
+        this.productList.addAll(filteredList);
+        notifyDataSetChanged();
+    }
+
     onItemClickListener onItemClickListener;
     public void setOnItemClickListener(onItemClickListener onItemClickListener){
         this.onItemClickListener = onItemClickListener;

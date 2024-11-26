@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.SearchView;
 
 import com.example.plantify_user.adapter.ProductAdapter;
 import com.example.plantify_user.model.ProductModel;
@@ -39,7 +40,7 @@ public class home_layout extends Fragment {
 
     private FirebaseDatabase firebaseDatabase;
     private FirebaseAuth firebaseAuth;
-
+    private SearchView searchView;
 
 
     @Override
@@ -49,7 +50,7 @@ public class home_layout extends Fragment {
 
 
         firebaseAuth = FirebaseAuth.getInstance();
-
+        searchView = view.findViewById(R.id.searchItem);
         firebaseDatabase = FirebaseDatabase.getInstance();
 
 
@@ -90,10 +91,41 @@ public class home_layout extends Fragment {
             }
         });
 
+
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                filterProductList(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterProductList(newText);
+                return true;
+            }
+        });
+
+
         return view;
     }
 
+    private void filterProductList(String query) {
+        if (query.isEmpty()) {
 
+            adapter.updateList(productList);
+        } else {
+            ArrayList<ProductModel> filteredList = new ArrayList<>();
+            for (ProductModel product : productList) {
+                if (product.getProductName().toLowerCase().contains(query.toLowerCase())) {
+                    filteredList.add(product);
+                }
+            }
+
+            adapter.updateList(filteredList);
+        }
+    }
 
 
     private void replaceFragment(Fragment fragment){
