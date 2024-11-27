@@ -1,6 +1,7 @@
 package com.example.plantify_user.products;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
@@ -105,7 +106,7 @@ public class product_info extends Fragment {
         adapter = new CommentAdapter(getContext(),commentList);
         Comments.setAdapter(adapter);
 
-        DisplayProductInfo();
+
 
         firebaseDatabase.getReference("Products").child(productKey).child("Comments").addValueEventListener(new ValueEventListener() {
             @Override
@@ -208,7 +209,8 @@ public class product_info extends Fragment {
 
 
     private void getproduct (){
-
+        Context context = getContext();
+        if (context == null) return;
         AlertDialog.Builder AddCart = new AlertDialog.Builder(getContext());
 
         View view = LayoutInflater.from(getContext()).inflate(R.layout.product_qty_layout,null,false);
@@ -339,6 +341,7 @@ public class product_info extends Fragment {
 
                     String AmountTotalRating = String.valueOf(totalRating);
                     String totalProductRating = String.valueOf(productRating);
+
                     Map<String,Object> RatingUpdate = new HashMap<>();
                     RatingUpdate.put("ProductRating",totalProductRating );
                     RatingUpdate.put("TotalRating",AmountTotalRating);
@@ -379,6 +382,12 @@ public class product_info extends Fragment {
         fragmentTransaction.commit();
 
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        DisplayProductInfo();
     }
 
 

@@ -2,7 +2,8 @@ package com.example.plantify_user.model;
 
 public class ProductModel {
 
-    String ProductName,Price,Quantity,ImageUrl,key,ProductRating,ProductDescription,TotalRating;
+    String ProductName,Price,Quantity,ImageUrl,key,ProductDescription,ProductRating
+            ,TotalRating;
 
 
     public String getProductName() {
@@ -11,6 +12,14 @@ public class ProductModel {
 
     public void setProductName(String productName) {
         ProductName = productName;
+    }
+
+    public String getProductRating() {
+        return ProductRating;
+    }
+
+    public void setProductRating(String productRating) {
+        ProductRating = productRating;
     }
 
     public String getPrice() {
@@ -61,11 +70,5 @@ public class ProductModel {
         ProductDescription = productDescription;
     }
 
-    public String getProductRating() {
-        return ProductRating;
-    }
 
-    public void setProductRating(String productRating) {
-        ProductRating = productRating;
-    }
 }
