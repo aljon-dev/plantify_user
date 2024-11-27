@@ -39,7 +39,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "alarm_channel")
                 .setSmallIcon(R.drawable.baseline_book_24)
                 .setContentTitle("Alarm: " + alarmName)
-                .setContentText("Time to wake up!")
+                .setContentText("Time To Water your Plants")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true);
 
