@@ -10,7 +10,10 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -164,34 +167,58 @@ public class AlarmFragment extends Fragment {
     }
 
     private void scheduleAlarm(AlarmData alarm) {
-        AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(getContext(),AlarmReceiver.class);
-        intent.putExtra("ALARM_ID", alarm.getId());
-        intent.putExtra("ALARM_NAME", alarm.getName());
+        try {
+            AlarmManager alarmManager = (AlarmManager) requireContext().getSystemService(Context.ALARM_SERVICE);
 
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                getContext(),
-                alarm.getId().hashCode(),
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
-        );
+            // Null check for alarmManager
+            if (alarmManager == null) {
+                Log.e("AlarmFragment", "AlarmManager is null");
+                return;
+            }
 
-        // Parse time
-        String[] timeParts = alarm.getTime().split(":");
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(timeParts[0]));
-        calendar.set(Calendar.MINUTE, Integer.parseInt(timeParts[1]));
-        calendar.set(Calendar.SECOND, 0);
+            Intent intent = new Intent(requireContext(), AlarmReceiver.class);
+            intent.putExtra("ALARM_ID", alarm.getId());
+            intent.putExtra("ALARM_NAME", alarm.getName());
 
-        // If time has already passed today, schedule for tomorrow
-        if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
-            calendar.add(Calendar.DAY_OF_YEAR, 1);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                    requireContext(),
+                    alarm.getId().hashCode(),
+                    intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+            );
+
+            // Parse time
+            String[] timeParts = alarm.getTime().split(":");
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(timeParts[0]));
+            calendar.set(Calendar.MINUTE, Integer.parseInt(timeParts[1]));
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+
+            // If time has already passed today, schedule for tomorrow
+            if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
+                calendar.add(Calendar.DAY_OF_YEAR, 1);
+            }
+
+            // Check for alarm permissions (for Android 12+)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                if (!((AlarmManager) requireContext().getSystemService(Context.ALARM_SERVICE)).canScheduleExactAlarms()) {
+                    // Prompt user to grant permission
+                    startActivity(new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM));
+                    return;
+                }
+            }
+
+            alarmManager.setExactAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP,
+                    calendar.getTimeInMillis(),
+                    pendingIntent
+            );
+
+            Log.d("AlarmFragment", "Alarm scheduled for: " + calendar.getTime());
+        } catch (Exception e) {
+            Log.e("AlarmFragment", "Error scheduling alarm", e);
+            Toast.makeText(requireContext(), "Failed to schedule alarm", Toast.LENGTH_SHORT).show();
         }
-
-        alarmManager.setExactAndAllowWhileIdle(
-                AlarmManager.RTC_WAKEUP,
-                calendar.getTimeInMillis(),
-                pendingIntent
-        );
     }
 }
